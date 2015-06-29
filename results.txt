@@ -4,7 +4,7 @@
      4      ABHIMANYU VASHISTHA                  2K12/ME/04                  89            88            74            79             77             83             68            182            82                       30     81.93
      5      ABHINAV KUMAR                        2K12/ME/05                  83            92            72            81             62             84             74            169            82                       30     79.27
      6      ABHINAV TIWARI                       2K12/ME/06                  85            88            78            89             52             81             75            174            82                       30     79.73
-     7      ABHISHEK CHOUDHARY                   2K12/ME/07                  59            71            43            51             32             73             68            155            76                       26     54.67   ME-315
+     7      ABHISHEK CHOUDHARY                   2K12/ME/07                  59            71            43            51             32             73             68            155            76                       26     54.67
      8      ABHISHEK KHANDELWAL                  2K12/ME/08                  49            79            48            79             47             79             67            160            88                       30     66.53
      9      ABHISHEK KUMAR                       2K12/ME/09                  63            85            49            64             40             60             69            153            68                       30     63.47
      10     ABHISHEK KUMAR JHA                   2K12/ME/10                  91            86            69            90             45             73             74            153            84                       30     76.40
@@ -22,5 +22,3 @@
      22     AKSHAY MALIK                         2K12/ME/24                  84            74            59            85             47             83             73            175            78                       30     73.80
      23     AKSHAY MANCHANDA                     2K12/ME/25                  96            98            86            95             73             86             80            163            84                       30     87.27
      24     AKSHIT TAGRA                         2K12/ME/26                  90            81            72            92             71             86             85            160            88                       30     82.07
-
-
