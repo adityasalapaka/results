@@ -1,17 +1,29 @@
 setwd("~/results")
 
-#library(tm)
-#getSources()
-#getReaders()
-#cname <- file.path(".", "corpuspdf")
-#cname
-#dir(cname)
-# docs <- Corpus(DirSource(cname), readerControl =list (reader=readPDF))
+cleanUp <- function(x){
+        
+        for (i in 1:65){
+                system(paste("pdftotext results.pdf -f ", i," -l ", i, 
+                             " -layout ", i, ".txt", sep = ""))
+                system(paste("sed -e '1, 19d' < ", i, ".txt | head -n -7 > ", i,
+                             "output.txt", sep = ""))
+        }
+        
+        
+        for(i in 1:65){
+                system(paste("rm ", i, ".txt", sep=""))
+        }
+        
+        system("cat *.txt > results.txt")
+        
+        for(i in 1:65){
+                system(paste("rm ", i, "output.txt", sep=""))
+        }
+}
 
-# system("pdftotext ~/results/results.pdf -f 49 -l 56 -H 19 -nopgbrk -layout")
-# sed -e '1, 19d' < mech1.txt | head -n -7 nech1.txt
 
-# mechs <- scan("results.txt", " ")
+
+
 
 con <- file("results.txt")
 mech <- readLines(con)
