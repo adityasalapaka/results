@@ -1,12 +1,14 @@
 setwd("~/results")
 
-extract <- function(results){
+extract <- function(resultsPDF){
         
-        pages <- system("pdfinfo results.pdf | awk '/^Pages:/ {print $2}'", 
+        print(resultsPDF)
+        pages <- system(paste("pdfinfo ", resultsPDF, 
+                              ".pdf | awk '/^Pages:/ {print $2}'", sep = ""), 
                         intern = TRUE)
         
         for (i in 1:pages){
-                system(paste("pdftotext results.pdf -f ", i," -l ", i, 
+                system(paste("pdftotext ", resultsPDF, ".pdf -f ", i," -l ", i, 
                              " -layout ", i, ".txt", sep = ""))
                 system(paste("sed -e '1, 19d' < ", i, ".txt | head -n -7 > ", i,
                              "output.txt", sep = ""))
@@ -23,6 +25,10 @@ extract <- function(results){
                 system(paste("rm ", i, "output.txt", sep=""))
         }
 }
+
+foo <- "results"
+
+extract(foo)
 
 con <- file("results.txt")
 results <- readLines(con)
@@ -42,3 +48,4 @@ df <- read.table(text=gsub("(?<=[[:digit:]] )(.*)(?= 2K12)", "'\\1'", s,
                            perl = T), header = F)
 
 rownames(df) <- NULL
+View(df)
