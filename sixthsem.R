@@ -21,15 +21,19 @@ cleanUp <- function(x){
         }
 }
 
-
-
-
-
 con <- file("results.txt")
-mech <- readLines(con)
+results <- readLines(con)
 close(con)
 
-s <- gsub("^ *|(?<= ) | *$", "", mech, perl = T)
+length(grep("2K12", results)) # 1361
+length(results) # 1479
+
+#results <- results[-which(results == "")] # remove empty lines
+#length(results) # 1440
+
+results <- results[grep("([0-9]\\s+\\w+)", results)]
+length(results)
+
+s <- gsub("^ *|(?<= ) | *$", "", results, perl = T)
 df <- read.table(text=gsub("(?<=[[:digit:]] )(.*)(?= 2K12)", "'\\1'", s, 
                            perl = T), header = F)
-
