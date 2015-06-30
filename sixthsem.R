@@ -1,8 +1,11 @@
 setwd("~/results")
 
-cleanUp <- function(x){
+extract <- function(results){
         
-        for (i in 1:65){
+        pages <- system("pdfinfo results.pdf | awk '/^Pages:/ {print $2}'", 
+                        intern = TRUE)
+        
+        for (i in 1:pages){
                 system(paste("pdftotext results.pdf -f ", i," -l ", i, 
                              " -layout ", i, ".txt", sep = ""))
                 system(paste("sed -e '1, 19d' < ", i, ".txt | head -n -7 > ", i,
@@ -10,13 +13,13 @@ cleanUp <- function(x){
         }
         
         
-        for(i in 1:65){
+        for(i in 1:pages){
                 system(paste("rm ", i, ".txt", sep=""))
         }
         
         system("cat *.txt > results.txt")
         
-        for(i in 1:65){
+        for(i in 1:pages){
                 system(paste("rm ", i, "output.txt", sep=""))
         }
 }
