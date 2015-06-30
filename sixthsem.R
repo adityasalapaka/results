@@ -28,12 +28,14 @@ close(con)
 length(grep("2K12", results)) # 1361
 length(results) # 1479
 
-#results <- results[-which(results == "")] # remove empty lines
-#length(results) # 1440
-
 results <- results[grep("([0-9]\\s+\\w+)", results)]
 length(results)
 
-s <- gsub("^ *|(?<= ) | *$", "", results, perl = T)
+x <- gsub("\\b[A-z]{1,2}\\b-.+", "", results)
+x <- gsub("[A-Z]+\\dK", " 2K", x) # replaces FOO BOO BAR2K12 with FOO BOO 2K12
+
+s <- gsub("^ *|(?<= ) | *$", "", x, perl = T)
 df <- read.table(text=gsub("(?<=[[:digit:]] )(.*)(?= 2K12)", "'\\1'", s, 
                            perl = T), header = F)
+
+rownames(df) <- NULL
