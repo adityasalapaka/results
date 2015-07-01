@@ -1,5 +1,7 @@
 setwd("~/results")
 
+library(naturalsort)
+
 extract <- function(resultsPDF){
         
         print(resultsPDF)
@@ -47,5 +49,6 @@ s <- gsub("^ *|(?<= ) | *$", "", x, perl = T)
 df <- read.table(text=gsub("(?<=[[:digit:]] )(.*)(?= 2K12)", "'\\1'", s, 
                            perl = T), header = F)
 
+df <- df[naturalorder(df$V3),]
+
 rownames(df) <- NULL
-View(df)
