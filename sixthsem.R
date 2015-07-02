@@ -48,7 +48,8 @@ x <- gsub("[A-Z]+2K", " 2K", results) # replaces FOO BOO BAR2K12 with FOO BOO 2K
 
 s <- gsub("^ *|(?<= ) | *$", "", x, perl = T)
 df <- read.table(text=gsub("(?<=[[:digit:]] )(.*)(?= 2K12)", "'\\1'", s, 
-                           perl = T), header = F, na.strings = c("D", "A"))
+                           perl = TRUE), header = FALSE, 
+                 na.strings = c("D", "A"))
 
 df <- df[naturalorder(df$V3),]
 
@@ -56,10 +57,11 @@ rownames(df) <- NULL
 colnames(df)[c(1:3, 13, 14)] <- c("Sr.No.", "Name", "Roll. No", "Total Credits"
                                   , "SPI")
 
+write.table(df, file = "results.csv", sep = ";", quote = FALSE, 
+            row.names = FALSE)
+
 branchResults <- function(branchCode){
         branch <- df[grep(paste("2K12/", branchCode, sep = ""), df$Roll),]
         rownames(branch) <- NULL
         branch
 }
-
-mechanical <- branchResults("ME")
