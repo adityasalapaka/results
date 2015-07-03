@@ -22,9 +22,7 @@ extract <- function(resultsPDF){
                         intern = TRUE)
         
         # Extracts text from each page to individual text files, preserving
-        # the original layout. This creates the first batch of text files. 
-        # Unwanted text at the head and the tail are stripped off to create 
-        # a second batch of text files.
+        # the original layout.
         
         for (i in 1:pages){
                 system(paste("pdftotext ", resultsPDF, ".pdf -f ", i," -l ", i, 
@@ -45,40 +43,66 @@ extract <- function(resultsPDF){
         }
 }
 
+# The PDF filename, without the .pdf extention.
+
 foo <- "results"
 
 extract(foo)
+
+# Read filenames into a character vector
 
 con <- file("results.txt")
 results <- readLines(con)
 close(con)
 
-length(grep("2K12", results))
-length(results)
 
+# Keeps rows with a roll number in them.
 results <- results[grep("([0-9]\\s+\\w+)", results)]
-length(results)
 
-results <- gsub("\\b[A-z]{1,2}\\b-.+", "", results) # removes backs
+# Removes the string containing failed subjects. These interfered with the final
+# data frame and weren't really helpful in analysis.
 
-x <- gsub("[A-Z]+2K", " 2K", results) # replaces FOO BOO BAR2K12 with FOO BOO 2K12
+results <- gsub("\\b[A-z]{1,2}\\b-.+", "", results)
 
-s <- gsub("^ *|(?<= ) | *$", "", x, perl = T)
-df <- read.table(text=gsub("(?<=[[:digit:]] )(.*)(?= 2K12)", "'\\1'", s, 
+# Some long names merged with the roll number. This removes the particular name.
+# For example, FOO BAR2K12 is replaced with FOO 2K12.
+
+results <- gsub("[A-Z]+2K", " 2K", results) 
+
+# Replaces all surplus whitespaces with a single space.
+
+results <- gsub("^ *|(?<= ) | *$", "", results, perl = T)
+
+# Treats names with variable number of words as a single string and finally
+# converts the text into a data frame. Scores unavailable due to detention or
+# absence are treated as NA.
+
+df <- read.table(text=gsub("(?<=[[:digit:]] )(.*)(?= 2K12)", "'\\1'", results, 
                            perl = TRUE), header = FALSE, 
                  na.strings = c("D", "A"))
 
+# Orders data frame by roll number, like it appeared in the original PDF.
+
 df <- df[naturalorder(df$V3),]
+
+# Removes row numbers and adds column headers wherever possible.
 
 rownames(df) <- NULL
 colnames(df)[c(1:3, 13, 14)] <- c("Sr.No.", "Name", "Roll. No", "Total Credits"
                                   , "SPI")
 
+# generates final CSV file with "." as decimal point and "," as separator.
 write.table(df, file = "results.csv", sep = ",", quote = FALSE, 
             row.names = FALSE)
+
+# A function used to generate individual data frames for a particular branch.
 
 branchResults <- function(branchCode){
         branch <- df[grep(paste("2K12/", branchCode, sep = ""), df$Roll),]
         rownames(branch) <- NULL
         branch
 }
+
+# Uncomment the line below for an example to generate results for mechanical.
+
+# mechanical <- branchResults("ME")
