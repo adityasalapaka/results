@@ -31,11 +31,6 @@ extract <- function(resultsPDF){
                              " -layout ", i, ".txt", sep = ""))
                 system(paste("sed -e '1, 19d' < ", i, ".txt | head -n -7 > ", i,
                              "output.txt", sep = ""))
-        }
-        
-        # Removes the first batch of unwanted text files.
-        
-        for(i in 1:pages){
                 system(paste("rm ", i, ".txt", sep=""))
         }
         
