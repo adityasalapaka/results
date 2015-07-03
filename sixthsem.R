@@ -57,7 +57,7 @@ rownames(df) <- NULL
 colnames(df)[c(1:3, 13, 14)] <- c("Sr.No.", "Name", "Roll. No", "Total Credits"
                                   , "SPI")
 
-write.table(df, file = "results.csv", sep = ";", quote = FALSE, 
+write.table(df, file = "results.csv", sep = ",", quote = FALSE, 
             row.names = FALSE)
 
 branchResults <- function(branchCode){
